@@ -5,13 +5,6 @@ using System.Net;
 using System.Text;
 using System.Net.Mail;
 using C = System.Console;
-/*
- * Before deploy
- * ==============
- * clean, check-in and ignore SetUp.xml
- * 
- * 
- */ 
 
 namespace EmailSender.Console {
     class Program {
