@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Console", "EmailSender.Console.csproj", "{57694B76-4954-43DB-9EC1-BB8988ED706F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender", "..\EmailSender\EmailSender.csproj", "{F728C4BD-8EEB-476D-AC0B-D4BCFA98F975}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Tests", "..\EmailSender.Tests\EmailSender.Tests.csproj", "{959D673C-AA31-4EB5-ADC0-D53D36733F73}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{57694B76-4954-43DB-9EC1-BB8988ED706F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57694B76-4954-43DB-9EC1-BB8988ED706F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57694B76-4954-43DB-9EC1-BB8988ED706F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57694B76-4954-43DB-9EC1-BB8988ED706F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F728C4BD-8EEB-476D-AC0B-D4BCFA98F975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F728C4BD-8EEB-476D-AC0B-D4BCFA98F975}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F728C4BD-8EEB-476D-AC0B-D4BCFA98F975}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F728C4BD-8EEB-476D-AC0B-D4BCFA98F975}.Release|Any CPU.Build.0 = Release|Any CPU
+		{959D673C-AA31-4EB5-ADC0-D53D36733F73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{959D673C-AA31-4EB5-ADC0-D53D36733F73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{959D673C-AA31-4EB5-ADC0-D53D36733F73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{959D673C-AA31-4EB5-ADC0-D53D36733F73}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

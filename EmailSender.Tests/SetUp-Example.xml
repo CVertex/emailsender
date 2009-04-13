@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SetUp>
+  <Smtp>
+    <HostName>smtp.your-isp.com</HostName>
+    <Port>25</Port>
+    <UserName>james@woods.com</UserName>
+    <Password>example_pw</Password>
+    <From>from@email.address.com</From>
+    <To>to@email.address.com</To>
+  </Smtp>
+
+  <Gmail>
+    <Account>your_gmail_email@gmail.com</Account>
+    <Password>paaassssword</Password>
+    <To>destination@dump-truck.com</To>
+  </Gmail>
+
+
+</SetUp>
