@@ -28,38 +28,26 @@ namespace EmailSender.Console
         }
 
         #region Helpers
-
-        IEnumerable<ConstructorInfo> GetCtors()
+        
+        IEnumerable<ConstructorInfo> GetCtorsOrderedDescByParameterLength()
         {
-            var cs = _ctors.OrderByDescending(ct => ct.GetParameters().Length);
-            foreach (var c in cs)
-            {
-                yield return c;
-            }
+            return _ctors.OrderByDescending(ct => ct.GetParameters().Length);
         }
 
         IEnumerable<PropertyInfo> GetSettableProperties() {
             return _props.Where(p => p.CanWrite);
         }
 
-        object Convert(Type targetType, string value)
-        {
-            var converter = TypeDescriptor.GetConverter(targetType);
-            if (!converter.CanConvertFrom(typeof(string)))
-            {
-                throw new NotSupportedException();
-            }
-            return converter.ConvertFromString(value);
-        }
+        
 
         #endregion
 
 
 
-        public IEmailSender Instantiate(IDictionary<string,string> arguments)
+        public IEmailSender Instantiate(IDictionary<string,string> inputArgs)
         {
 
-            IEnumerable<ConstructorInfo> ctors = GetCtors();
+            IEnumerable<ConstructorInfo> ctors = GetCtorsOrderedDescByParameterLength();
 
             
             // look for a best matching ctor
@@ -68,41 +56,51 @@ namespace EmailSender.Console
                 var ps = ctor.GetParameters();
                 bool fail = false;
 
-                // look for a parameter that can't be matched
+                //
+                // look for a parameter that can't be matched to fail this ctor
+                //
                 foreach (var p in ps)
                 {
 
 
-                    if (!arguments.ContainsKey(p.Name) && !p.IsOptional)
+                    if (!inputArgs.ContainsKey(p.Name) && !p.IsOptional)
                     {
                         fail = true; 
                     }
                 }
 
+                //
+                // if the ctor passed the matchup gauntlet, create an arg list and invoke it
+                //
                 if (!fail)
                 {
-                    object[] actualParameters = new object[ps.Length];
+                    //
+                    // foreach ctor param, convert to the param type and add to actual param object list
+                    //
+
+                    object[] parameters = new object[ps.Length];
                     
-                    // foreach ctor param, convert to the local type and add to the actual param list
                     for (int i=0; i<ps.Length; i++)
                     {
                         var p = ps[i];
-                        if (!arguments.ContainsKey(p.Name))
+                        if (!inputArgs.ContainsKey(p.Name))
                         {
-                            actualParameters[i] = null; 
+                            parameters[i] = null; 
                         } else
                         {
-                            object value = Convert(p.ParameterType,arguments[p.Name]);
-                            actualParameters[i] = value;
+
+                            object value = inputArgs[p.Name].ToType(p.ParameterType);
+                            parameters[i] = value;
                         }
                         
                     }
 
-                    // Invoke the ctor to instantiate the concrete type
-                    IEmailSender senderInstance = ctor.Invoke(actualParameters) as IEmailSender;
+                    // Invoke the ctor with actual parameters to instantiate the concrete type
+                    IEmailSender senderInstance = ctor.Invoke(parameters) as IEmailSender;
                     if (senderInstance != null)
                     {
-                        SetProperties(senderInstance,arguments);
+                        // Property inject
+                        SetProperties(senderInstance,inputArgs);
                         return senderInstance;
                     }
 
@@ -115,19 +113,19 @@ namespace EmailSender.Console
             
         }
 
-        void SetProperties(object senderInstance, IDictionary<string,string> args)
+        void SetProperties(object senderInstance, IDictionary<string,string> inputArgs)
         {
             
             foreach (var p in GetSettableProperties())
             {
-                if (args.ContainsKey(p.Name))
+                if (inputArgs.ContainsKey(p.Name))
                 {
                     try
                     {
-                        p.SetValue(senderInstance, Convert(p.PropertyType, args[p.Name]), null);
+                        p.SetValue(senderInstance, inputArgs[p.Name].ToType(p.PropertyType), null);
                     } catch (NotSupportedException)
                     {
-                        // avoid this property
+                        // if exception thrown, just ignore this property
                     }
                 }
             }
@@ -140,7 +138,9 @@ namespace EmailSender.Console
         {
             var usageInfos = new List<SenderTypeUsageInfo>();
             
-
+            //
+            // for each ctor, there's a different usage
+            //
             foreach (var ctor in _ctors)
             {
                 var info = new SenderTypeUsageInfo
