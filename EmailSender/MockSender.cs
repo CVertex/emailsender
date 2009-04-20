@@ -4,9 +4,7 @@ using System;
 namespace EmailSender
 {
     public class MockSender : IRichMessageEmailSender {
-        public MockSender() {
-        }
-
+        
         public virtual void Send(String from, String to, String subject, String messageText) {
 
         }

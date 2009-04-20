@@ -23,7 +23,7 @@ namespace EmailSender {
         protected override void ConfigureSender(Message message) {
             if (!this.HasCredentials)
             {
-                throw new Exception("Gmail Sender must have login and password");
+                throw new Exception("Gmail Sender requires account email address and password for authentication");
             }
 
             base.ConfigureSender(message);
