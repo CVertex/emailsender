@@ -154,7 +154,7 @@ namespace EmailSender
                 Attachment mailAttach;
 
                 if (attachment.Stream != null) {
-                    mailAttach = new Attachment(attachment.Stream, attachment.MediaType);
+                    mailAttach = new Attachment(attachment.Stream,attachment.FileName, attachment.MediaType);
                 } else {
                     mailAttach = new Attachment(attachment.FileName, attachment.MediaType);
                 }

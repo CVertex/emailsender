@@ -17,7 +17,7 @@ namespace EmailSender.Tests
         {
             if (!File.Exists(SetUpFileName)) {
                 throw new FileNotFoundException(
-                    "You must provide an SetUp.xml file to run these unit tests against Twitter");
+                    "You must provide an SetUp.xml file to run these unit tests");
             }
         }
         
